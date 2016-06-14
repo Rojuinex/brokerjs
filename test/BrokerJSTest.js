@@ -399,7 +399,7 @@ describe('Broker', function() {
 				throw new Error('Should not get here');
 			})
 			.catch(function(e) {
-				assert(e.name == 'E_NO_SUB', 'Expected error.name to be `E_NO_SUB`');
+				assert(e.name == 'NoSubscriberError', 'Expected error.name to be `NoSubscriberError`');
 				assert(/No subscribers on channel/.test(e), 'Expected error message to be `No subscribers on channel`');
 				done();
 			})
