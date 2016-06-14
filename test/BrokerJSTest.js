@@ -386,7 +386,7 @@ describe('Broker', function() {
 			}).catch(done);
 		});
 
-		it('should emit with a valid non-existant channelId', function(done) {
+		it('should fail if there were no subscribers', function(done) {
 			// Check default expected arguments:
 			let chanId = 'emit:nonexistant:id';
 			let result = broker.emit(chanId);
@@ -396,8 +396,14 @@ describe('Broker', function() {
 
 			// Verify completion of emission at promise resolution.
 			result.then(function(){
+				throw new Error('Should not get here');
+			})
+			.catch(function(e) {
+				assert(e.name == 'E_NO_SUB', 'Expected error.name to be `E_NO_SUB`');
+				assert(/No subscribers on channel/.test(e), 'Expected error message to be `No subscribers on channel`');
 				done();
-			}).catch(done);
+			})
+			.catch(done);
 		});
 
 		it('should emit with proper context', function(done) {
